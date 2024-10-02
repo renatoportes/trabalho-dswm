@@ -1,0 +1,57 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
+  relationMode = "foreignKeys"
+}
+
+model companies {
+  id              Int               @id
+  user_id         Int
+  subscribers     Int?
+  active_now      Int?
+  users           users             @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_companies_user1")
+  monthly_billing monthly_billing[]
+  sales           sales[]
+
+  @@index([user_id], map: "fk_companies_user1_idx")
+}
+
+model monthly_billing {
+  id           Int       @id @default(autoincrement())
+  name         String?   @db.VarChar(45)
+  total        Int?
+  companies_id Int
+  companies    companies @relation(fields: [companies_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_monthly_billing_companies1")
+
+  @@index([companies_id], map: "fk_monthly_billing_companies1_idx")
+}
+
+model sales {
+  id            Int       @id @default(autoincrement())
+  name          String?   @db.VarChar(45)
+  email         String?   @db.VarChar(200)
+  total_billing Int?
+  companies_id  Int
+  companies     companies @relation(fields: [companies_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_sales_companies1")
+
+  @@index([companies_id], map: "fk_sales_companies1_idx")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model settings {
+  id           Int     @id
+  company_name String? @db.VarChar(45)
+  cnpj         String? @db.VarChar(14)
+}
+
+model users {
+  id        Int         @id
+  full_name String?     @db.VarChar(200)
+  user_name String?     @db.VarChar(45)
+  password  String?     @db.VarChar(1000)
+  companies companies[]
+}
