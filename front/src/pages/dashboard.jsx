@@ -47,7 +47,7 @@ export function DashboardPage() {
   }, [])
 
   return (
-    <div className='h-[calc(100vh-65px)]'>
+    <div className='h-auto'>
       <div className="flex-col h-full w-full">
         <div className="border-b border-slate-300">
           <div className="flex h-16 items-center px-4">
