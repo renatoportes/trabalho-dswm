@@ -1,4 +1,3 @@
-const { faker } = require("@faker-js/faker");
 const { PrismaClient } = require("@prisma/client")
 
 const prisma = new PrismaClient()
@@ -17,9 +16,9 @@ const getOverview = async (req, res) => {
     }
   })
 
-  setTimeout(function () {
+  setTimeout(() => {
     return res.status(200).send(data)
-  }, 1000);
+  }, 500);
 };
 
 module.exports = { getOverview };

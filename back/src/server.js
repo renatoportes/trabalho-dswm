@@ -9,10 +9,8 @@ app.use(
     origin: "*",
   })
 );
-app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(express.json());
 app.use(router);
 
 app.listen(3030, () => console.log("Server is running!"));

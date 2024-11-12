@@ -6,9 +6,9 @@ const prisma = new PrismaClient()
 const getSettings = async (req, res) => {
   const data = await prisma.settings.findFirst({})
 
-  setTimeout(function () {
+  setTimeout(() => {
     return res.status(200).send(data)
-  }, 2000);
+  }, 500);
 };
 
 module.exports = { getSettings };

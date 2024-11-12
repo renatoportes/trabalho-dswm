@@ -13,11 +13,8 @@ model companies {
   user_id         Int
   subscribers     Int?
   active_now      Int?
-  users           users             @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_companies_user1")
   monthly_billing monthly_billing[]
   sales           sales[]
-
-  @@index([user_id], map: "fk_companies_user1_idx")
 }
 
 model monthly_billing {
@@ -46,12 +43,4 @@ model settings {
   id           Int     @id
   company_name String? @db.VarChar(45)
   cnpj         String? @db.VarChar(14)
-}
-
-model users {
-  id        Int         @id
-  full_name String?     @db.VarChar(200)
-  user_name String?     @db.VarChar(45)
-  password  String?     @db.VarChar(1000)
-  companies companies[]
 }

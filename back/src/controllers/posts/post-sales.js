@@ -20,7 +20,7 @@ const postSales = async (req, res) => {
 
   })
 
-  return res.status(200)
+  return res.status(200).send()
 }
 
 module.exports = { postSales }

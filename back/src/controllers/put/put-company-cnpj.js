@@ -13,6 +13,10 @@ const putCompanyCnpj = async (req, res) => {
       id: 1,
     }
   })
+
+  setTimeout(() => {
+    return res.status(200).send()
+  }, 500);
 }
 
 module.exports = { putCompanyCnpj }

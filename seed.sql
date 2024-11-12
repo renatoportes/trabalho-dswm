@@ -1,0 +1,4 @@
+INSERT INTO `companies` VALUES (1,1,239,148);
+INSERT INTO `sales` VALUES (1,'Erdak','erdak@gmail.com',1210,1),(2,'Alvar','alvar@gmail.com',898,1),(3,'Areson','areson@gmail.com',3099,1),(4,'James','james@gamil.com',289,1),(5,'Ricardo','ricardo@gmail.com',768,1),(6,'Bruno','bruno@gmail.com',992,1),(7,'Lucas','lucas@gmail.com',1490,1),(8,'Murilo','murilo@gmail.com',3002,1),(9,'Henrique','henrique@gmail.com',1451,1),(10,'Angela','angela@gmail.com',120,1),(11,'Amarildo','amarildo@gmail.com',1234,1),(12,'João','joao@gmail.com',987,1);
+INSERT INTO `settings` VALUES (1,'Monsters Malls','30106303000154');
+INSERT INTO `monthly_billing` VALUES (1,'Jan',1210,1),(2,'Fev',898,1),(3,'Mar',3099,1),(4,'Abr',289,1),(5,'Mai',768,1),(6,'Jun',992,1),(7,'Jul',1490,1),(8,'Ago',3002,1),(9,'Set',1451,1),(10,'Out',120,1),(11,'Nov',1234,1),(12,'Dez',987,1);

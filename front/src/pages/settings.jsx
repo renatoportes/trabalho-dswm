@@ -7,13 +7,15 @@ import {
 } from "../components/ui/card"
 import { Input } from "../components/ui/input"
 import { Button } from "../components/ui/button"
-import TeamSwitcher from "../components/team-switcher"
 import { MainNav } from "../components/main-nav"
 import { ModeToggle } from "../components/mode-toggle"
 import { UserNav } from "../components/user-nav"
 import { Loader2, Save } from "lucide-react"
 import { useEffect, useState } from "react"
 import axios from "axios"
+import { toast } from "react-toastify"
+import { Loader } from "lucide-react"
+import TeamSwitcher from "../components/team-switcher"
 
 export function Settings() {
 
@@ -54,70 +56,84 @@ export function Settings() {
             className="grid gap-4 text-sm text-muted-foreground" x-chunk="dashboard-04-chunk-0"
           >
             <a href="#" className="font-semibold text-primary">
-              General
+              Geral
             </a>
-            <button disabled className="flex">Security</button>
-            <button disabled className="flex">Integrations</button>
-            <button disabled className="flex">Support</button>
-            <button disabled className="flex">Organizations</button>
-            <button disabled className="flex">Advanced</button>
+            <button disabled className="flex">Segurança</button>
+            <button disabled className="flex">Suporte</button>
+            <button disabled className="flex">Organizações</button>
           </nav>
-          {
-            loading &&
-            <div className="gap-6 flex justify-center items-center">
-              <Loader2 className='animate-spin w-20 h-20' />
-            </div>
-          }
-          {
-            !loading &&
-            <div className="grid gap-6">
-              <Card x-chunk="dashboard-04-chunk-1">
-                <CardHeader>
-                  <CardTitle>Nome da empresa</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <form>
-                    <Input placeholder="Loja do preço barato" value={companyName} onChange={e => setCompanyName(e.target.value)} />
-                  </form>
-                </CardContent>
-                <CardFooter className="border-t px-6 py-4">
-                  <Button onClick={() => axios.put("http://localhost:3030/settings/company-name", {
+
+          <div className="grid gap-6">
+            <Card x-chunk="dashboard-04-chunk-1">
+              <CardHeader>
+                <CardTitle>Nome da empresa</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <form>
+                  <Input placeholder="Loja do preço barato" value={loading ? "Carregando..." : companyName} onChange={e => setCompanyName(e.target.value)} />
+                </form>
+              </CardContent>
+              <CardFooter className="border-t px-6 py-4">
+                <Button disabled={loading} onClick={async () => {
+                  setLoading(true)
+                  await axios.put("http://localhost:3030/settings/company-name", {
                     data: {
                       company_name: companyName
                     }
-                  })}>
-                    <Save className="w-4 h-4 mr-1" />
-                    Salvar
-                  </Button>
-                </CardFooter>
-              </Card>
-              <Card x-chunk="dashboard-04-chunk-2">
-                <CardHeader>
-                  <CardTitle>CNPJ</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <form className="flex flex-col gap-4">
-                    <Input
-                      placeholder="79.455.260/0001-01"
-                      value={cnpj}
-                      maxLength={14}
-                      onChange={e => setCnpj(e.target.value)}
-                    />
-                  </form>
-                </CardContent>
-                <CardFooter className="border-t px-6 py-4">
-                  <Button onClick={() => axios.put("http://localhost:3030/settings/cnpj", {
+                  })
+                    .then(() => {
+                      setLoading(false)
+                      toast.success("Nome da empresa salvo com sucesso")
+                    })
+                    .catch(() => {
+                      toast.error("Erro ao salvar nome da empresa")
+                      setLoading(false)
+                    })
+                }
+                }>
+                  {loading ? <Loader className="w-4 h-4 mr-1 animate-spin" /> : <Save className="w-4 h-4 mr-1" />}
+                  Salvar
+                </Button>
+              </CardFooter>
+            </Card>
+            <Card x-chunk="dashboard-04-chunk-2">
+              <CardHeader>
+                <CardTitle>CNPJ</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <form className="flex flex-col gap-4">
+                  <Input
+                    placeholder="79.455.260/0001-01"
+                    value={loading ? "Carregando..." : cnpj}
+                    maxLength={14}
+                    onChange={e => setCnpj(e.target.value)}
+                  />
+                </form>
+              </CardContent>
+              <CardFooter className="border-t px-6 py-4">
+                <Button disabled={loading} onClick={async () => {
+                  setLoading(true)
+                  await axios.put("http://localhost:3030/settings/cnpj", {
                     data: {
                       cnpj: cnpj
                     }
-                  })}>
-                    <Save className="w-4 h-4 mr-1" />
-                    Salvar
-                  </Button>
-                </CardFooter>
-              </Card>
-            </div>
-          }
+                  })
+                    .then(() => {
+                      setLoading(false)
+                      toast.success("CNPJ salvo com sucesso")
+                    })
+                    .catch(() => {
+                      toast.error("Erro ao salvar CNPJ")
+                      setLoading(false)
+                    })
+                }
+                }>
+                  {loading ? <Loader className="w-4 h-4 mr-1 animate-spin" /> : <Save className="w-4 h-4 mr-1" />}
+                  Salvar
+                </Button>
+              </CardFooter>
+            </Card>
+          </div>
         </div>
       </main>
     </div>

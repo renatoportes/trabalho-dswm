@@ -1,8 +1,6 @@
 
-import TeamSwitcher from './../components/team-switcher';
 import { MainNav } from './../components/main-nav';
 import { UserNav } from './../components/user-nav';
-import { CalendarDateRangePicker } from './../components/date-range-picker';
 import { Tabs, TabsContent, TabsTrigger, TabsList, } from '../components/ui/tabs';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, } from "../components/ui/card"
 import { Button } from '../components/ui/button';
@@ -26,6 +24,7 @@ import {
 } from "../components/ui/alert-dialog"
 import { Input } from '../components/ui/input';
 import { Label } from '../components/ui/label';
+import TeamSwitcher from '../components/team-switcher';
 
 export function DashboardPage() {
 
@@ -39,6 +38,7 @@ export function DashboardPage() {
   async function loadData() {
     const { data } = await axios.get('http://localhost:3030/overview')
     setData(data)
+    console.log(data)
     setLoading(false)
   }
 
@@ -47,7 +47,7 @@ export function DashboardPage() {
   }, [])
 
   return (
-    <div className='h-auto'>
+    <div className='h-[calc(100vh-65px)]'>
       <div className="flex-col h-full w-full">
         <div className="border-b border-slate-300">
           <div className="flex h-16 items-center px-4">
@@ -93,13 +93,16 @@ export function DashboardPage() {
                       <Input type="number" onChange={(e) => setTotalBilling(e.target.value)} value={total_billing} />
                       <AlertDialogFooter>
                         <AlertDialogCancel>Cancelar</AlertDialogCancel>
-                        <AlertDialogAction onClick={() => axios.post("http://localhost:3030/sales", {
-                          data: {
-                            name: name,
-                            email: email,
-                            total_billing: total_billing,
-                          }
-                        })}>Salvar</AlertDialogAction>
+                        <AlertDialogAction onClick={async () => {
+                          await axios.post("http://localhost:3030/sales", {
+                            data: {
+                              name: name,
+                              email: email,
+                              total_billing: total_billing,
+                            }
+                          })
+                          window.location.reload()
+                        }}>Salvar</AlertDialogAction>
                       </AlertDialogFooter>
                     </form>
                   </AlertDialogContent>
@@ -185,7 +188,7 @@ export function DashboardPage() {
                       </svg>
                     </CardHeader>
                     <CardContent>
-                      <div className="text-2xl font-bold">+ {data?.sales[0]?.total_billing?.toFixed(2)}</div>
+                      <div className="text-2xl font-bold">+ {data?.sales[0]?.total_billing?.toFixed(2) ? data?.sales[0]?.total_billing?.toFixed(2) : 0}</div>
                       <p className="text-xs text-muted-foreground">
                         +19% a mais que o ultimo mês
                       </p>
@@ -212,7 +215,7 @@ export function DashboardPage() {
                     <CardContent>
                       <div className="text-2xl font-bold">+ {data.active_now}</div>
                       <p className="text-xs text-muted-foreground">
-                        +201 desde a última hora
+                        +14 desde a última hora
                       </p>
                     </CardContent>
                   </Card>
